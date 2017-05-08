@@ -1,0 +1,31 @@
+apply plugin: 'maven'
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories {
+        mavenDeployer {
+            repository(url: MAVEN_REPO_RELEASE_URL) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            snapshotRepository(url: MAVEN_REPO_SNAPSHOT_URL) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            pom.project {
+                groupId 'com.dacheng.maven.upload'
+                artifactId 'upload'
+                version '0.0.4'
+            }
+        }
+    }
+}
+
+dependencies {
+    compile localGroovy()
+    compile gradleApi()
+}
